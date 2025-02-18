@@ -1,0 +1,21 @@
+# Bytecode-Dateien
+__pycache__/
+*.py[cod]
+
+# Virtuelle Umgebungen
+venv/
+env/
+
+# IDEs und Editoren
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Log-Dateien und Umgebungsvariablen
+*.log
+.env
+
+# Mac- und Windows-spezifische Dateien
+.DS_Store
+Thumbs.db
