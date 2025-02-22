@@ -3,6 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+import numpy as np
+import csv
+from py2neo import Graph, Node, Relationship
 
 csv_path = 'data/leads_data.csv'
 
@@ -56,6 +59,28 @@ model.fit(X_train, y_train)
 
 # Vorhersagen auf dem Testset
 y_pred = model.predict(X_test)
+proba = model.predict_proba(X_test)[:, 1]
+
+# Lead-Score in DataFrame einfügen
+leads_df['Lead_Score'] = model.predict_proba(scaler.transform(x))[:, 1]
+
+# High-Potential-Leads in CSV exportieren
+high_potential = leads_df[leads_df['Lead_Score'] > 0.7]
+high_potential.to_csv('high_potential_leads.csv', index=False)
+
+# Neo4j-Verbindung aufbauen (Knowledge Graph)
+graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
+
+# Knowledge Graph befüllen
+for index, row in high_potential.iterrows():
+    lead_node = Node("Lead", name=f"Lead_{index}", score=float(row['Lead_Score']))
+    graph.merge(lead_node, "Lead", "name")
+
+    country_node = Node("Country", name=str(row['Country']))
+    graph.merge(country_node, "Country", "name")
+
+    relationship = Relationship(lead_node, "LOCATED_IN", country_node)
+    graph.merge(relationship)
 
 # Modell evaluieren
 accuracy = accuracy_score(y_test, y_pred)
@@ -65,3 +90,4 @@ report = classification_report(y_test, y_pred)
 print(f"Genauigkeit: {accuracy:.2f}")
 print("Konfusionsmatrix:\n", conf_matrix)
 print("Bericht:\n", report)
+print("High-Potential-Leads wurden in 'high_potential_leads.csv' exportiert.")
