@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder, StandardScaler
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import numpy as np
 import csv
@@ -20,97 +20,67 @@ print('describe:')
 print(leads_df.describe())
 
 # Fehlende Werte behandeln
-leads_df.fillna({
-    'Country': 'Unknown',
-    'TotalVisits': leads_df['TotalVisits'].median(),
-    'Page Views Per Visit': leads_df['Page Views Per Visit'].median(),
-    'Lead Source': 'Unknown',
-    'Last Activity': 'Unknown',
-    'Lead Quality': 'Unknown',
-    'Total Time Spent on Website': 0
-}, inplace=True)
+leads_df['Country'] = leads_df['Country'].fillna('Unknown')
+leads_df['TotalVisits'] = leads_df['TotalVisits'].fillna(leads_df['TotalVisits'].median())
+leads_df['Page Views Per Visit'] = leads_df['Page Views Per Visit'].fillna(leads_df['Page Views Per Visit'].median())
+leads_df['Lead Source'] = leads_df['Lead Source'].fillna('Unknown')
+leads_df['Last Activity'] = leads_df['Last Activity'].fillna('Unknown')
 
-# Falls noch NaN-Werte vorhanden sind, diese mit 0 ersetzen
+# Überprüfen auf verbleibende NaN-Werte und ersetzen
 leads_df.fillna(0, inplace=True)
 
 # Unnötige Spalten entfernen
 leads_df.drop(['Prospect ID', 'Lead Number', 'City', 'Lead Profile'], axis=1, inplace=True)
 
-# 'Yes' → 1, 'No' → 0
-leads_df['Do Not Email'] = leads_df['Do Not Email'].map({'Yes': 1, 'No': 0}).fillna(0).astype(int)
-leads_df['Do Not Call'] = leads_df['Do Not Call'].map({'Yes': 1, 'No': 0}).fillna(0).astype(int)
-
-# Neue Features erstellen (Feature Engineering)
-leads_df['Engagement_Score'] = leads_df['TotalVisits'] * leads_df['Total Time Spent on Website']
-leads_df['Contactability_Score'] = (1 - leads_df['Do Not Email']) * (1 - leads_df['Do Not Call'])
-
 # Ursprüngliche Kategorie-Mappings speichern
 category_mappings = {}
 
-# LabelEncoder initialisieren
-le = LabelEncoder()
-
-# Spalten identifizieren, die keine numerischen Werte enthalten
-categorical_columns = leads_df.select_dtypes(include=['object']).columns.tolist()
-
-# 'Do Not Email' und 'Do Not Call' entfernen, weil sie schon numerisch sind
-categorical_columns = [col for col in categorical_columns if col not in ['Do Not Email', 'Do Not Call']]
-
-# Label Encoding nur auf verbleibende kategoriale Spalten anwenden
-for column in categorical_columns:
-    # Sicherstellen, dass alles Strings sind
+# Kategoriale Daten in Strings umwandeln und Mapping erstellen
+for column in leads_df.select_dtypes(include=['object']).columns:
     leads_df[column] = leads_df[column].astype(str)
-    
-    # Fitting des LabelEncoders
-    le.fit(leads_df[column])
-    
-    # Speichern der Mappings
-    category_mappings[column] = {label: idx for idx, label in enumerate(le.classes_)}
-    
-    # Anwenden der Umwandlung auf die Spalte
-    leads_df[column] = le.transform(leads_df[column])
+    unique_values = leads_df[column].unique()
+    category_mappings[column] = {value: idx for idx, value in enumerate(unique_values)}
+    leads_df[column] = leads_df[column].map(category_mappings[column])
 
-# Überprüfe die gespeicherten Mappings
-print("Category Mappings:\n", category_mappings)
+# Mapping speichern
+print("Kategorie-Mappings:")
+for key, value in category_mappings.items():
+    print(f"{key}: {value}")
 
-# Zielvariable und Features definieren
+# Ziel- und Feature-Variablen definieren
 y = leads_df['Converted']
-X = leads_df.drop(['Converted'], axis=1)
+x = leads_df.drop(['Converted'], axis=1)
 
 # Trainings- und Testdaten aufteilen
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
 
 # Daten skalieren
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# Random Forest Modell trainieren
-model = RandomForestClassifier(n_estimators=200, max_depth=10, random_state=42)
+# Modell initialisieren und trainieren
+model = LogisticRegression(max_iter=5000, solver='saga', random_state=42)
 model.fit(X_train, y_train)
 
 # Vorhersagen auf dem Testset
 y_pred = model.predict(X_test)
-y_proba = model.predict_proba(X_test)[:, 1]
+proba = model.predict_proba(X_test)[:, 1]
 
-# Lead-Score berechnen
-leads_df['Lead_Score'] = model.predict_proba(scaler.transform(X))[:, 1]
+# Lead-Score in DataFrame einfügen
+leads_df['Lead_Score'] = model.predict_proba(scaler.transform(x))[:, 1]
 
-# High-Potential-Leads filtern & speichern
+# High-Potential-Leads in CSV exportieren
 high_potential = leads_df[leads_df['Lead_Score'] > 0.7]
 high_potential.to_csv('high_potential_leads.csv', index=False)
-
-# Feature Importance ausgeben
-feature_importances = pd.DataFrame({'Feature': X.columns, 'Importance': model.feature_importances_})
-feature_importances = feature_importances.sort_values(by='Importance', ascending=False)
-print("Top Features:\n", feature_importances.head(10))
 
 # Neo4j-Verbindung aufbauen (Knowledge Graph)
 graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
 # Alle bestehenden Daten in Neo4j löschen
 graph.run("MATCH (n) DETACH DELETE n")
 
-# Knowledge Graph befüllen
+
+# Knowledge Graph mit mehreren Kategorien befüllen
 for index, row in high_potential.iterrows():
     lead_node = Node("Lead", name=f"Lead_{index}", score=float(row['Lead_Score']))
     graph.merge(lead_node, "Lead", "name")
@@ -127,10 +97,15 @@ for index, row in high_potential.iterrows():
     graph.merge(activity_node, "LastActivity", "name")
     graph.merge(Relationship(lead_node, "LAST_INTERACTION", activity_node))
 
-    # Engagement Score als Knoten
-    engagement_node = Node("Engagement", score=float(row['Engagement_Score']))
-    graph.merge(engagement_node, "Engagement", "score")
+    # Page Views als Engagement-Knoten
+    engagement_node = Node("Engagement", page_views=int(row['Page Views Per Visit']))
+    graph.merge(engagement_node, "Engagement", "page_views")
     graph.merge(Relationship(lead_node, "HAS_ENGAGEMENT", engagement_node))
+
+    # Asymmetrique Activity Score
+    score_node = Node("ActivityScore", score=float(row['Asymmetrique Activity Score']))
+    graph.merge(score_node, "ActivityScore", "score")
+    graph.merge(Relationship(lead_node, "HAS_SCORE", score_node))
 
 # Modell evaluieren
 accuracy = accuracy_score(y_test, y_pred)
