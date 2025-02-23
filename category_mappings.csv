@@ -1,0 +1,203 @@
+Feature,Category,Encoded Value
+Lead Origin,API,0
+Lead Origin,Landing Page Submission,1
+Lead Origin,Lead Add Form,2
+Lead Origin,Lead Import,3
+Lead Origin,Quick Add Form,4
+Lead Source,Click2call,0
+Lead Source,Direct Traffic,1
+Lead Source,Facebook,2
+Lead Source,Google,3
+Lead Source,Live Chat,4
+Lead Source,NC_EDM,5
+Lead Source,Olark Chat,6
+Lead Source,Organic Search,7
+Lead Source,Pay per Click Ads,8
+Lead Source,Press_Release,9
+Lead Source,Reference,10
+Lead Source,Referral Sites,11
+Lead Source,Social Media,12
+Lead Source,Unknown,13
+Lead Source,WeLearn,14
+Lead Source,Welingak Website,15
+Lead Source,bing,16
+Lead Source,blog,17
+Lead Source,google,18
+Lead Source,testone,19
+Lead Source,welearnblog_Home,20
+Lead Source,youtubechannel,21
+Last Activity,Approached upfront,0
+Last Activity,Converted to Lead,1
+Last Activity,Email Bounced,2
+Last Activity,Email Link Clicked,3
+Last Activity,Email Marked Spam,4
+Last Activity,Email Opened,5
+Last Activity,Email Received,6
+Last Activity,Form Submitted on Website,7
+Last Activity,Had a Phone Conversation,8
+Last Activity,Olark Chat Conversation,9
+Last Activity,Page Visited on Website,10
+Last Activity,Resubscribed to emails,11
+Last Activity,SMS Sent,12
+Last Activity,Unknown,13
+Last Activity,Unreachable,14
+Last Activity,Unsubscribed,15
+Last Activity,View in browser link Clicked,16
+Last Activity,Visited Booth in Tradeshow,17
+Country,Asia/Pacific Region,0
+Country,Australia,1
+Country,Bahrain,2
+Country,Bangladesh,3
+Country,Belgium,4
+Country,Canada,5
+Country,China,6
+Country,Denmark,7
+Country,France,8
+Country,Germany,9
+Country,Ghana,10
+Country,Hong Kong,11
+Country,India,12
+Country,Indonesia,13
+Country,Italy,14
+Country,Kenya,15
+Country,Kuwait,16
+Country,Liberia,17
+Country,Malaysia,18
+Country,Netherlands,19
+Country,Nigeria,20
+Country,Oman,21
+Country,Philippines,22
+Country,Qatar,23
+Country,Russia,24
+Country,Saudi Arabia,25
+Country,Singapore,26
+Country,South Africa,27
+Country,Sri Lanka,28
+Country,Sweden,29
+Country,Switzerland,30
+Country,Tanzania,31
+Country,Uganda,32
+Country,United Arab Emirates,33
+Country,United Kingdom,34
+Country,United States,35
+Country,Unknown,36
+Country,Vietnam,37
+Country,unknown,38
+Specialization,0,0
+Specialization,"Banking, Investment And Insurance",1
+Specialization,Business Administration,2
+Specialization,E-Business,3
+Specialization,E-COMMERCE,4
+Specialization,Finance Management,5
+Specialization,Healthcare Management,6
+Specialization,Hospitality Management,7
+Specialization,Human Resource Management,8
+Specialization,IT Projects Management,9
+Specialization,International Business,10
+Specialization,Marketing Management,11
+Specialization,Media and Advertising,12
+Specialization,Operations Management,13
+Specialization,Retail Management,14
+Specialization,Rural and Agribusiness,15
+Specialization,Select,16
+Specialization,Services Excellence,17
+Specialization,Supply Chain Management,18
+Specialization,Travel and Tourism,19
+How did you hear about X Education,0,0
+How did you hear about X Education,Advertisements,1
+How did you hear about X Education,Email,2
+How did you hear about X Education,Multiple Sources,3
+How did you hear about X Education,Online Search,4
+How did you hear about X Education,Other,5
+How did you hear about X Education,SMS,6
+How did you hear about X Education,Select,7
+How did you hear about X Education,Social Media,8
+How did you hear about X Education,Student of SomeSchool,9
+How did you hear about X Education,Word Of Mouth,10
+What is your current occupation,0,0
+What is your current occupation,Businessman,1
+What is your current occupation,Housewife,2
+What is your current occupation,Other,3
+What is your current occupation,Student,4
+What is your current occupation,Unemployed,5
+What is your current occupation,Working Professional,6
+What matters most to you in choosing a course,0,0
+What matters most to you in choosing a course,Better Career Prospects,1
+What matters most to you in choosing a course,Flexibility & Convenience,2
+What matters most to you in choosing a course,Other,3
+Search,No,0
+Search,Yes,1
+Magazine,No,0
+Newspaper Article,No,0
+Newspaper Article,Yes,1
+X Education Forums,No,0
+X Education Forums,Yes,1
+Newspaper,No,0
+Newspaper,Yes,1
+Digital Advertisement,No,0
+Digital Advertisement,Yes,1
+Through Recommendations,No,0
+Through Recommendations,Yes,1
+Receive More Updates About Our Courses,No,0
+Tags,0,0
+Tags,Already a student,1
+Tags,Busy,2
+Tags,Closed by Horizzon,3
+Tags,Diploma holder (Not Eligible),4
+Tags,Graduation in progress,5
+Tags,In confusion whether part time or DLP,6
+Tags,Interested  in full time MBA,7
+Tags,Interested in Next batch,8
+Tags,Interested in other courses,9
+Tags,Lateral student,10
+Tags,Lost to EINS,11
+Tags,Lost to Others,12
+Tags,Not doing further education,13
+Tags,Recognition issue (DEC approval),14
+Tags,Ringing,15
+Tags,Shall take in the next coming month,16
+Tags,Still Thinking,17
+Tags,University not recognized,18
+Tags,Want to take admission but has financial problems,19
+Tags,Will revert after reading the email,20
+Tags,in touch with EINS,21
+Tags,invalid number,22
+Tags,number not provided,23
+Tags,opp hangup,24
+Tags,switched off,25
+Tags,wrong number given,26
+Lead Quality,High in Relevance,0
+Lead Quality,Low in Relevance,1
+Lead Quality,Might be,2
+Lead Quality,Not Sure,3
+Lead Quality,Unknown,4
+Lead Quality,Worst,5
+Update me on Supply Chain Content,No,0
+Get updates on DM Content,No,0
+Asymmetrique Activity Index,0,0
+Asymmetrique Activity Index,01.High,1
+Asymmetrique Activity Index,02.Medium,2
+Asymmetrique Activity Index,03.Low,3
+Asymmetrique Profile Index,0,0
+Asymmetrique Profile Index,01.High,1
+Asymmetrique Profile Index,02.Medium,2
+Asymmetrique Profile Index,03.Low,3
+I agree to pay the amount through cheque,No,0
+A free copy of Mastering The Interview,No,0
+A free copy of Mastering The Interview,Yes,1
+Last Notable Activity,Approached upfront,0
+Last Notable Activity,Email Bounced,1
+Last Notable Activity,Email Link Clicked,2
+Last Notable Activity,Email Marked Spam,3
+Last Notable Activity,Email Opened,4
+Last Notable Activity,Email Received,5
+Last Notable Activity,Form Submitted on Website,6
+Last Notable Activity,Had a Phone Conversation,7
+Last Notable Activity,Modified,8
+Last Notable Activity,Olark Chat Conversation,9
+Last Notable Activity,Page Visited on Website,10
+Last Notable Activity,Resubscribed to emails,11
+Last Notable Activity,SMS Sent,12
+Last Notable Activity,Unreachable,13
+Last Notable Activity,Unsubscribed,14
+Last Notable Activity,View in browser link Clicked,15
