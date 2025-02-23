@@ -7,7 +7,7 @@ import numpy as np
 import csv
 from py2neo import Graph, Node, Relationship
 
-csv_path = 'data/leads_data.csv'
+csv_path = 'data/leads_data.csv' 
 
 # Daten einlesen
 leads_df = pd.read_csv(csv_path)
@@ -16,8 +16,6 @@ print('HEAD:')
 print(leads_df.head())
 print('info:')
 print(leads_df.info())
-print('describe:')
-print(leads_df.describe())
 
 # Fehlende Werte behandeln
 leads_df['Country'] = leads_df['Country'].fillna('Unknown')
