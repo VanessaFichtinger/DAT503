@@ -45,6 +45,17 @@ print("Kategorie-Mappings:")
 for key, value in category_mappings.items():
     print(f"{key}: {value}")
 
+# Kategorie-Mappings in CSV speichern
+with open('category_mappings.csv', 'w', newline='') as csvfile:
+    fieldnames = ['Feature', 'Category', 'Encoded Value']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    for column, mapping in category_mappings.items():
+        for label, encoded_value in mapping.items():
+            writer.writerow({'Feature': column, 'Category': label, 'Encoded Value': encoded_value})
+
+print("Kategorie-Mappings wurden in 'category_mappings.csv' gespeichert.")
+
 # Ziel- und Feature-Variablen definieren
 y = leads_df['Converted']
 x = leads_df.drop(['Converted'], axis=1)
@@ -61,7 +72,7 @@ X_test = scaler.transform(X_test)
 model = LogisticRegression(max_iter=5000, solver='saga', random_state=42)
 model.fit(X_train, y_train)
 
-# Vorhersagen auf dem Testset
+# Vorhersagen mit dem Testset
 y_pred = model.predict(X_test)
 proba = model.predict_proba(X_test)[:, 1]
 
