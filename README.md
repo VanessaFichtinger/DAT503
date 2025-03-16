@@ -1,5 +1,5 @@
 # DAT503
-Prototyp für Vertriebsautomatisierung durch Potenzialberechnung für Einnahmen
+Prototyp für Vertriebsautomatisierung durch Potenzialberechnung
 
 Verwendeter Datensatz: https://www.kaggle.com/datasets/amritachatterjee09/lead-scoring-dataset/data
 
